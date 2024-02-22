@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  experiment: one
+  'on': false
+  label: MyString
+
+two:
+  experiment: two
+  'on': false
+  label: MyString
