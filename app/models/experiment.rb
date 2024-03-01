@@ -1,4 +1,7 @@
 class Experiment < ApplicationRecord
   has_many :camera_streams
-  has_many :controls
+  
+  def controls
+    Control.where(experiment_id: self.id)
+  end
 end

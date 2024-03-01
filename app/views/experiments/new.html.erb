@@ -1,2 +1,11 @@
 <h1>Experiment#new</h1>
-<p>Find me in app/views/experiment/new.html.erb</p>
+
+<%= form_for @experiment || Experiment.new do |f| %>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
