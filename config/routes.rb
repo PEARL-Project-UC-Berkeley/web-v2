@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  root 'experiments#index'
+  
+  resources :experiments
+  
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
