@@ -14,7 +14,7 @@ class ExperimentsController < ApplicationController
   end
 
   def create
-    @experiment = Experiment.new(params.permit(:name))
+    @experiment = Experiment.new(params[:experiment].permit(:name))
     authorize @experiment
     @experiment.save!
     redirect_to @experiment
@@ -35,6 +35,7 @@ class ExperimentsController < ApplicationController
   def destroy
     @experiment = Experiment.find(params[:id])
     authorize @experiment
+    @experiment.controls.map { | c | c.delete }
     @experiment.delete
     redirect_to root_path
   end

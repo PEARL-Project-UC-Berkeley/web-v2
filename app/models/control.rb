@@ -13,9 +13,9 @@ module Control
     model.create(*args)
   end
   
-  def self.find(submodule_name, *args)
-    model = find_model(submodule_name)
-    model.find(*args)
+  def self.find(id, *args)
+    model = find_model(id.split("_")[0])
+    model.find(id.split("_")[1], *args)
   end
 
   def self.where(*args, &block)

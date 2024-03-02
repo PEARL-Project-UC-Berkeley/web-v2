@@ -4,6 +4,6 @@ class Control::Dial < ApplicationRecord
     ControlPolicy
   end
   def type
-    "toggle"
+    "dial"
   end
 end
