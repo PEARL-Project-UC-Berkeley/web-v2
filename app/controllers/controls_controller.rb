@@ -4,7 +4,6 @@ class ControlsController < ApplicationController
   end
 
   def create
-    puts params
     @control = Control.new(params[:type], params.permit(:label, :experiment_id, :min, :max, :step))
     authorize @control
     @control.save!

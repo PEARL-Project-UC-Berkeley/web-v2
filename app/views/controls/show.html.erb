@@ -1,9 +1,0 @@
-<h1><%= @experiment.name %></h1>
-
-<div style="display: flex; gap: 8px">
-
-  <%= button_to "Delete Experiment", @experiment, method: :delete %>
-  
-  <%= button_to "Update Experiment", edit_experiment_path(@experiment), method: :get %>
-
-</div>

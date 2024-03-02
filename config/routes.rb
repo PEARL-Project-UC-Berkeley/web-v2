@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   
   resources :experiments do
     resources :controls
+    resources :camera_streams
   end
   
   devise_for :users

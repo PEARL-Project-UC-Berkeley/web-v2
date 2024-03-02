@@ -1,0 +1,11 @@
+<h1>CameraStream#edit</h1>
+
+<%= form_for @camera_stream, url: experiment_camera_stream_path do |f| %>
+  <p>
+    <%= f.label :url %><br>
+    <%= f.text_field :url %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
