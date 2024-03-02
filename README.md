@@ -9,3 +9,9 @@ This repository should handle three key things:
 * Landing page with project information
 
 It uses Ruby on Rails.
+
+## Timeline
+
+Here's the current timeline:
+
+![IMG_5753](https://github.com/PEARL-Project-UC-Berkeley/web-v2/assets/39828164/d49c1c7f-4eb7-45ab-94c2-a225650e35c7)
