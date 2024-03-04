@@ -3,18 +3,18 @@ class ExperimentPolicy < ApplicationPolicy
     true
   end
   def create?
-    true
+    user.is_admin?
   end
   def show?
     true
   end
   def update?
-    true
+    user.is_admin?
   end
   def edit?
-    true
+    user.is_admin?
   end
   def destroy?
-    true
+    user.is_admin?
   end
 end
