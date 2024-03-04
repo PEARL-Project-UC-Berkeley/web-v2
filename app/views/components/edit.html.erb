@@ -1,0 +1,13 @@
+<h1>Control#edit</h1>
+
+<% if @component.is_a?(Component::Stopwatch) %>
+  <%= form_with url: experiment_component_path(id: "#{@component.type}_#{@component.id}"), model: @component, method: :put do |f| %>
+    <p>
+      <%= f.label :label %><br>
+      <%= f.text_field :label %>
+    </p>
+    <p>
+      <%= f.submit %>
+    </p>
+  <% end %>
+<% end %>

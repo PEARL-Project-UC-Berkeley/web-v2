@@ -4,4 +4,8 @@ class Experiment < ApplicationRecord
   def controls
     Control.where(experiment_id: self.id)
   end
+
+  def components
+    Component.where(experiment_id: self.id)
+  end
 end

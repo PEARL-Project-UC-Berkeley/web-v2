@@ -10,13 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_22_073336) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_02_055516) do
   create_table "camera_streams", force: :cascade do |t|
     t.integer "experiment_id", null: false
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["experiment_id"], name: "index_camera_streams_on_experiment_id"
+  end
+
+  create_table "component_stopwatches", force: :cascade do |t|
+    t.integer "experiment_id", null: false
+    t.string "label"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["experiment_id"], name: "index_component_stopwatches_on_experiment_id"
   end
 
   create_table "control_dials", force: :cascade do |t|
@@ -69,6 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_22_073336) do
   end
 
   add_foreign_key "camera_streams", "experiments"
+  add_foreign_key "component_stopwatches", "experiments"
   add_foreign_key "control_dials", "experiments"
   add_foreign_key "control_increments", "experiments"
   add_foreign_key "control_toggles", "experiments"

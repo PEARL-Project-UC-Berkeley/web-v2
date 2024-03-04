@@ -1,0 +1,15 @@
+<h1>What type of component would you like to make?</h1>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr">
+
+<%= form_with url: experiment_components_path, method: :post do |f| %>
+  <h3>Create a Stopwatch</h3>
+  <p>
+    <%= f.label :label %><br>
+    <%= f.text_field :label %>
+    <%= f.hidden_field :type, value: "stopwatch" %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

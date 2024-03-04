@@ -23,7 +23,7 @@ class ControlsController < ApplicationController
   end
 
   def destroy
-    @control = Control.find(params[:type], params[:id])
+    @control = Control.find(params[:id])
     authorize @control
     @control.delete
     redirect_to @control.experiment

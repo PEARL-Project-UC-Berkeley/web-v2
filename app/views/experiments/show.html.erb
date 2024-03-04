@@ -8,8 +8,24 @@
   <li>
     <span style="display: inline-flex; gap: 4px; margin-top: 8px;">
       <%= control.label %> 
-      <%= button_to "🗑️", experiment_control_path(experiment_id: @experiment.id, id: control.id, type: control.type), method: :delete %>
+      <%= button_to "🗑️", experiment_control_path(experiment_id: @experiment.id, id: "#{control.type}_#{control.id}"), method: :delete %>
       <%= button_to "✏️", edit_experiment_control_path(experiment_id: @experiment.id, id: "#{control.type}_#{control.id}"), method: :get %>
+    </span>
+  </li>
+<% end %>
+
+<br />
+
+<b>Components:</b>
+
+<br /> <br />
+
+<% @experiment.components.each do |component| %>
+  <li>
+    <span style="display: inline-flex; gap: 4px; margin-top: 8px;">
+      <%= component.label %> 
+      <%= button_to "🗑️", experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :delete %>
+      <%= button_to "✏️", edit_experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :get %>
     </span>
   </li>
 <% end %>
@@ -43,6 +59,8 @@
 <div style="display: flex; gap: 8px">
   
   <%= button_to "Add Controls", new_experiment_control_path(@experiment), method: :get %>
+
+  <%= button_to "Add Components", new_experiment_component_path(@experiment), method: :get %>
   
   <%= button_to "Add Cameras", new_experiment_camera_stream_path(@experiment), method: :get %>
 
