@@ -34,13 +34,27 @@
 <br /> <br />
 
 <% @experiment.components.each do |component| %>
-  <li>
-    <span style="display: inline-flex; gap: 4px; margin-top: 8px;">
-      <%= component.label %> 
-      <%= button_to "🗑️", experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :delete %>
-      <%= button_to "✏️", edit_experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :get %>
-    </span>
-  </li>
+  <% if component.is_a?(Component::Stopwatch) %>
+    <div data-controller="stopwatch" class="container">
+        <span style="display: inline-flex; gap: 4px; margin-top: 8px;">
+          <u style="margin-right: 8px"><%= component.label %></u>
+          <%= button_to "🗑️", experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :delete %>
+          <%= button_to "✏️", edit_experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :get %>
+        </span>
+        <p data-target="stopwatch.display">00:00:00</p>
+        <button data-action="click->stopwatch#startStop" data-target="stopwatch.startStop">▶️</button>
+        <button data-action="click->stopwatch#reset">🔁</button>
+        <button data-action="click->stopwatch#pauseResume" data-target="stopwatch.pauseResume" disabled>⏸️</button>
+    </div>
+  <% else %>
+    <li>
+      <span style="display: inline-flex; gap: 4px; margin-top: 8px;">
+        <%= component.label %> 
+        <%= button_to "🗑️", experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :delete %>
+        <%= button_to "✏️", edit_experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :get %>
+      </span>
+    </li>
+  <% end %>
 <% end %>
 
 <br />
@@ -78,3 +92,8 @@
   <%= button_to "Add Cameras", new_experiment_camera_stream_path(@experiment), method: :get %>
 
 </div>
+
+<script>
+  
+  
+</script>
