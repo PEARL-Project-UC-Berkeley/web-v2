@@ -33,8 +33,6 @@
 
 <br /> <br />
 
-<img src="https://www.ginifab.com/feeds/cm_to_inch/img/ruler.png" alt="Ruler" data-controller="draggable" data-target="draggable.draggable"  data-action="mousedown->draggable#drag wheel->draggable#scale" style="position: absolute">
-
 <% @experiment.components.each do |component| %>
   <% if component.is_a?(Component::Stopwatch) %>
     <div data-controller="stopwatch" class="container">
@@ -66,13 +64,14 @@
 <br /> <br />
 
 <% @experiment.camera_streams.each do |camera_streams| %>
-  <li>
-    <span style="display: inline-flex; gap: 4px; margin-top: 8px;">
-      <%= camera_streams.url %> 
-      <%= button_to "🗑️", experiment_camera_stream_path(experiment_id: @experiment.id, id: camera_streams.id), method: :delete %>
-      <%= button_to "✏️", edit_experiment_camera_stream_path(experiment_id: @experiment.id, id: camera_streams.id), method: :get %>
-    </span>
-  </li>
+  <div style="position: relative; width: 600px; height: 400px; overflow: hidden">
+    <iframe width="600" height="400" src="<%= camera_streams.url %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+    <img src="https://cloud-bkp6kovw2-hack-club-bot.vercel.app/0plastic_transparent_ruler_png_clip_art-2891.png" height="100px" alt="Ruler" data-controller="draggable" data-target="draggable.draggable"  data-action="mousedown->draggable#drag wheel->draggable#scale" style="position: absolute; left: 0; top: 0">
+  </div>
+  <span style="display: inline-flex; gap: 4px; margin-top: 8px; margin-bottom: 16px;">
+    <%= button_to "🗑️", experiment_camera_stream_path(experiment_id: @experiment.id, id: camera_streams.id), method: :delete %>
+    <%= button_to "✏️", edit_experiment_camera_stream_path(experiment_id: @experiment.id, id: camera_streams.id), method: :get %>
+  </span>
 <% end %>
 
 <br />
