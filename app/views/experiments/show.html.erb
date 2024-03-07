@@ -5,9 +5,22 @@
 <br /> <br />
 
 <% @experiment.controls.each do |control| %>
-  <li>
-    <span style="display: inline-flex; gap: 4px; margin-top: 8px;">
-      <%= control.label %> 
+  <li style="display: flex; align-items: center; gap: 4px;">
+    <% if control.is_a?(Control::Toggle) %>
+      <input type="checkbox">
+      <label><%= control.label %> </label><br>
+    <% end %>
+    
+    <% if control.is_a?(Control::Increment) %>
+      <input type="number" id="quantity" name="quantity" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
+      <label><%= control.label %> </label><br>
+    <% end %>
+    
+    <% if control.is_a?(Control::Dial) %>
+      <input type="range" id="quantity" name="quantity" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
+      <label><%= control.label %> </label><br>
+    <% end %>
+    <span style="display: inline-flex; gap: 4px; margin-top: 8px; margin-left: 16px">
       <%= button_to "🗑️", experiment_control_path(experiment_id: @experiment.id, id: "#{control.type}_#{control.id}"), method: :delete %>
       <%= button_to "✏️", edit_experiment_control_path(experiment_id: @experiment.id, id: "#{control.type}_#{control.id}"), method: :get %>
     </span>
