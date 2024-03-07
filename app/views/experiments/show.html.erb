@@ -33,6 +33,8 @@
 
 <br /> <br />
 
+<img src="https://www.ginifab.com/feeds/cm_to_inch/img/ruler.png" alt="Ruler" data-controller="draggable" data-target="draggable.draggable"  data-action="mousedown->draggable#drag wheel->draggable#scale" style="position: absolute">
+
 <% @experiment.components.each do |component| %>
   <% if component.is_a?(Component::Stopwatch) %>
     <div data-controller="stopwatch" class="container">
