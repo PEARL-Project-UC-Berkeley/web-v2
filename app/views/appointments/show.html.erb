@@ -1,0 +1,11 @@
+<p>
+  <i><%= @appointment.purpose %></i> using <%= @appointment.experiment.name %> from 
+  <%= @appointment.start_time&.strftime('%H:%M %m/%d/%Y') %> to <%= @appointment.end_time&.strftime('%H:%M %m/%d/%Y') %>.
+</p>
+
+<p>
+  <%= button_to "Edit this appointment", edit_appointment_path(@appointment), method: :get %>
+</p>
+<p>
+  <%= button_to "Destroy this appointment", @appointment, method: :delete %>
+</p>

@@ -16,6 +16,7 @@
     <nav style="display: flex; gap: 8px;">
       <% if current_user %>
         <%= button_to "🏠", root_path, method: :get %>
+        <%= button_to "Scheduler", appointments_path, method: :get %>
         <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
       <% end %>
     </nav>

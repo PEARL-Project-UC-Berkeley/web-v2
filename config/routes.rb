@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     resources :components
     resources :camera_streams
   end
+
+  resources :appointments
   
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

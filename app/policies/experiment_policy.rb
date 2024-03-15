@@ -6,7 +6,7 @@ class ExperimentPolicy < ApplicationPolicy
     user.is_admin?
   end
   def show?
-    true
+    user.current_appointment&.experiment == record || user.is_admin?
   end
   def update?
     user.is_admin?

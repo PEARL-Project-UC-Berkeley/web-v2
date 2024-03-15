@@ -4,7 +4,13 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
          
+  has_many :appointments
+         
   def is_admin?
     return admin == true
+  end
+
+  def current_appointment
+    appointments.where("start_time <= ? AND end_time >= ?", DateTime.now, DateTime.now).first
   end
 end
