@@ -5,7 +5,6 @@ class ExperimentChannel < ApplicationCable::Channel
   end
   
   def receive(data)
-    puts current_user
     ActionCable.server.broadcast("experiment_#{params[:experiment]}", data)
   end
 
