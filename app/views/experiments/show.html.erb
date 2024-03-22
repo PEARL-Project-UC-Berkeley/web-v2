@@ -8,17 +8,17 @@
   <% @experiment.controls.each do |control| %>
     <li style="display: flex; align-items: center; gap: 4px;">
       <% if control.is_a?(Control::Toggle) %>
-        <input type="checkbox" data-target="experiment.field" name="<%= control.id %>">
+        <input type="checkbox" data-target="experiment.field" name="checkbox_<%= control.id %>">
         <label><%= control.label %> </label><br>
       <% end %>
       
       <% if control.is_a?(Control::Increment) %>
-        <input type="number" data-target="experiment.field" name="<%= control.id %>" id="quantity" name="quantity" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
+        <input type="number" data-target="experiment.field" name="increment_<%= control.id %>" id="quantity" name="quantity" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
         <label><%= control.label %> </label><br>
       <% end %>
       
       <% if control.is_a?(Control::Dial) %>
-        <input type="range" data-target="experiment.field" name="<%= control.id %>" id="quantity" name="quantity" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
+        <input type="range" data-target="experiment.field" name="dial_<%= control.id %>" id="quantity" name="quantity" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
         <label><%= control.label %> </label><br>
       <% end %>
       <span style="display: inline-flex; gap: 4px; margin-top: 8px; margin-left: 16px">
