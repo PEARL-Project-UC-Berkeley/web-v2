@@ -11,8 +11,6 @@ async def ac_recv(uri, identifier):
   async with aioactioncable.connect(uri) as acconnect:
     subscription = await acconnect.subscribe(identifier)
     async for msg in subscription:
-      print("hi")
-      process(msg, identifier)
       if json.loads(msg)['location'] == 'pi':
         await subscription.send({**json.loads(msg), 'location': 'controls'})
 
