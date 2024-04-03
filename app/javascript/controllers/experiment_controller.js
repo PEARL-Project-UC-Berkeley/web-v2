@@ -6,14 +6,25 @@ export default class extends Controller {
   static values = { id: Number };
 
   connect() {
+    let controlId = Math.random()
+    this.controlId = controlId
     this.subscription = consumer.subscriptions.create(
-      { channel: "ExperimentChannel", experiment: this.idValue },
+      { channel: "ExperimentChannel", experiment: this.idValue, 'location': 'controls', controlId: this.controlId },
       {
         received(data) {
-          const target = document.getElementsByName(data.control)[0];
-          if (target) {
-            target.value = data.value;
-            target.checked = data.value;
+          if(data.location == "controls") {
+            if(data.controlId == controlId){
+              document.body.style.background = '#6ad63d';
+              setTimeout(function() {
+                document.body.style.background = 'white';
+              }, 200);
+            } else {
+              const target = document.getElementsByName(data.control)[0];
+              if (target) {
+                target.value = data.value;
+                target.checked = data.value;
+              }
+            }
           }
         },
       }
@@ -46,6 +57,8 @@ export default class extends Controller {
       experiment: this.idValue,
       control,
       value,
+      controlId: this.controlId,
+      location: 'pi'
     });
   }
 }
