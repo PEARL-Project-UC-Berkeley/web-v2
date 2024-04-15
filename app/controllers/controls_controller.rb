@@ -18,7 +18,7 @@ class ControlsController < ApplicationController
   def update
     @control = Control.find(params[:id])
     authorize @control
-    @control.update(params["control_#{@control.type}"].permit(:label, :min, :max, :step))
+    @control.update(params["control_#{@control.type}"].permit(:label, :min, :max, :step, :x_min, :x_max, :x_step, :y_min, :y_max, :y_step, :z_min, :z_max, :z_step, :three_d))
     redirect_to @control.experiment
   end
 

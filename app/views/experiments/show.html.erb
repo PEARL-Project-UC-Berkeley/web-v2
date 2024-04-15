@@ -13,18 +13,36 @@
       <% end %>
       
       <% if control.is_a?(Control::Increment) %>
-        <input type="number" data-target="experiment.field" name="increment_<%= control.id %>" id="quantity" name="quantity" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
+        <input type="number" data-target="experiment.field" name="increment_<%= control.id %>" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
         <label><%= control.label %> </label><br>
       <% end %>
       
       <% if control.is_a?(Control::Dial) %>
-        <input type="range" data-target="experiment.field" name="dial_<%= control.id %>" id="quantity" name="quantity" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
+        <input type="range" data-target="experiment.field" name="dial_<%= control.id %>" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
         <label><%= control.label %> </label><br>
       <% end %>
-      <span style="display: inline-flex; gap: 4px; margin-top: 8px; margin-left: 16px">
-        <%= button_to "🗑️", experiment_control_path(experiment_id: @experiment.id, id: "#{control.type}_#{control.id}"), method: :delete %>
-        <%= button_to "✏️", edit_experiment_control_path(experiment_id: @experiment.id, id: "#{control.type}_#{control.id}"), method: :get %>
-      </span>
+      <% if control.is_a?(Control::PushButton) %>
+        <button data-target="experiment.field" name="push_button_<%= control.id %>"><%= control.label %> </button><br>
+      <% end %>
+      <% if control.is_a?(Control::Input) %>
+        <input type="number" data-target="experiment.field" name="input_<%= control.id %>" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
+        <label><%= control.label %> </label><br>
+      <% end %>
+      <% if control.is_a?(Control::Position) %>
+        <input type="range" data-target="experiment.field" name="position_<%= control.id %>_x" min="<%= control.x_min %>" max="<%= control.x_max %>" step="<%= control.x_step %>">
+        <input type="range" data-target="experiment.field" name="position_<%= control.id %>_y" min="<%= control.y_min %>" max="<%= control.y_max %>" step="<%= control.y_step %>">
+        <% if control.three_d %>
+          <input type="range" data-target="experiment.field" name="position_<%= control.id %>_z" min="<%= control.z_min %>" max="<%= control.z_max %>" step="<%= control.z_step %>">
+        <% end %>
+        <br />
+        <label><%= control.label %> </label><br>
+      <% end %>
+      <% if current_user.is_admin? %>
+        <span style="display: inline-flex; gap: 4px; margin-top: 8px; margin-left: 16px; background: rgba(255, 140, 55, 0.6); padding: 4px; border-radius: 4px;">
+          <%= button_to "🗑️", experiment_control_path(experiment_id: @experiment.id, id: "#{control.type}_#{control.id}"), method: :delete %>
+          <%= button_to "✏️", edit_experiment_control_path(experiment_id: @experiment.id, id: "#{control.type}_#{control.id}"), method: :get %>
+        </span>
+      <% end %>
     </li>
   <% end %>
 </div>
@@ -38,11 +56,13 @@
 <% @experiment.components.each do |component| %>
   <% if component.is_a?(Component::Stopwatch) %>
     <div data-controller="stopwatch" class="container">
-        <span style="display: inline-flex; gap: 4px; margin-top: 8px;">
-          <u style="margin-right: 8px"><%= component.label %></u>
-          <%= button_to "🗑️", experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :delete %>
-          <%= button_to "✏️", edit_experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :get %>
-        </span>
+        <u style="margin-right: 8px"><%= component.label %></u>
+        <% if current_user.is_admin? %>
+          <span style="display: inline-flex; gap: 4px; margin-top: 8px; background: rgba(255, 140, 55, 0.6); padding: 4px; border-radius: 4px;">
+            <%= button_to "🗑️", experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :delete %>
+            <%= button_to "✏️", edit_experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :get %>
+          </span>
+        <% end %>
         <p data-target="stopwatch.display">00:00:00</p>
         <button data-action="click->stopwatch#startStop" data-target="stopwatch.startStop">▶️</button>
         <button data-action="click->stopwatch#reset">🔁</button>
@@ -78,25 +98,26 @@
 
 <br />
 
-<div style="display: flex; gap: 8px; margin-bottom: 8px;">
-
-  <%= button_to "Delete Experiment", @experiment, method: :delete %>
+<% if current_user.is_admin? %>
+  <div class="admin">
   
-  <%= button_to "Update Experiment", edit_experiment_path(@experiment), method: :get %>
-
-</div>
-
-<div style="display: flex; gap: 8px">
+    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+    
+      <%= button_to "Delete Experiment", @experiment, method: :delete %>
+      
+      <%= button_to "Update Experiment", edit_experiment_path(@experiment), method: :get %>
+    
+    </div>
+    
+    <div style="display: flex; gap: 8px">
+      
+      <%= button_to "Add Controls", new_experiment_control_path(@experiment), method: :get %>
+    
+      <%= button_to "Add Components", new_experiment_component_path(@experiment), method: :get %>
+      
+      <%= button_to "Add Cameras", new_experiment_camera_stream_path(@experiment), method: :get %>
+    
+    </div>
   
-  <%= button_to "Add Controls", new_experiment_control_path(@experiment), method: :get %>
-
-  <%= button_to "Add Components", new_experiment_component_path(@experiment), method: :get %>
-  
-  <%= button_to "Add Cameras", new_experiment_camera_stream_path(@experiment), method: :get %>
-
-</div>
-
-<script>
-  
-  
-</script>
+  </div>
+<% end %>

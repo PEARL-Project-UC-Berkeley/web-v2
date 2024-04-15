@@ -7,7 +7,11 @@ Rails.application.routes.draw do
     resources :camera_streams
   end
 
-  resources :appointments
+  resources :appointments do
+    collection do
+      get "admin", to: "appointments#admin"
+    end
+  end
   
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

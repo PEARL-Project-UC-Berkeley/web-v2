@@ -31,7 +31,7 @@ module Component
   private
   
   def self.find_model(submodule_name)
-    model_name = "Component::#{submodule_name.capitalize}"
+    model_name = "Component::#{submodule_name.camelize}"
     Object.const_get(model_name)
   end
 end

@@ -14,12 +14,12 @@ module Control
   end
   
   def self.find(id, *args)
-    model = find_model(id.split("_")[0])
-    model.find(id.split("_")[1], *args)
+    model = find_model(id.split("_")[0..-2].join("_"))
+    model.find(id.split("_")[-1], *args)
   end
 
   def self.where(*args, &block)
-    [Control::Toggle, Control::Increment, Control::Dial].flat_map do |model|
+    [Control::Toggle, Control::Increment, Control::Dial, Control::Input, Control::PushButton, Control::Position].flat_map do |model|
       model.where(*args, &block)
     end.compact # Remove nil responses
   end
@@ -31,7 +31,7 @@ module Control
   private
   
   def self.find_model(submodule_name)
-    model_name = "Control::#{submodule_name.capitalize}"
+    model_name = "Control::#{submodule_name.camelize}"
     Object.const_get(model_name)
   end
 end

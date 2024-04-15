@@ -1,0 +1,9 @@
+<p>
+  <% if current_user.current_appointment.present? %>
+    You have an appointment for 
+    <%= link_to current_user.current_appointment.experiment.name, current_user.current_appointment.experiment %>
+    until <%= current_user.current_appointment.end_time&.strftime('%H:%M %m/%d/%Y') %>.
+  <% else %>
+    You don't have any appointments for this time.
+  <% end %>
+</p>

@@ -1,17 +1,16 @@
-<h1>Experiments</h1>
+<%= render "appointments/current" %>
 
-<% if current_user.current_appointment.present? %>
-  You have an appointment for 
-  <%= link_to current_user.current_appointment.experiment.name, current_user.current_appointment.experiment %>
-  until <%= current_user.current_appointment.end_time&.strftime('%H:%M %m/%d/%Y') %>.
+<% if current_user.is_admin? %>
+  <div class="admin">
+    <b>Experiments</b>
+    <ul>
+      <% @experiments.each do |experiment| %>
+        <li>
+          <%= link_to experiment.name, experiment %>
+        </li>
+      <% end %>
+    </ul>
+    <%= button_to "Create An Experiment", new_experiment_path, method: :get %>
+  </div>
 <% end %>
 
-<ul>
-  <% @experiments.each do |experiment| %>
-    <li>
-      <%= link_to experiment.name, experiment %>
-    </li>
-  <% end %>
-</ul>
-
-<%= button_to "Create An Experiment", new_experiment_path, method: :get %>

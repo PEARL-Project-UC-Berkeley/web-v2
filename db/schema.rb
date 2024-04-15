@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_15_030304) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_15_093934) do
   create_table "appointments", force: :cascade do |t|
     t.datetime "start_time"
     t.datetime "end_time"
@@ -61,6 +61,43 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_15_030304) do
     t.index ["experiment_id"], name: "index_control_increments_on_experiment_id"
   end
 
+  create_table "control_inputs", force: :cascade do |t|
+    t.integer "experiment_id", null: false
+    t.integer "min"
+    t.integer "max"
+    t.integer "step"
+    t.string "label"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["experiment_id"], name: "index_control_inputs_on_experiment_id"
+  end
+
+  create_table "control_positions", force: :cascade do |t|
+    t.integer "experiment_id", null: false
+    t.integer "x_min"
+    t.integer "x_max"
+    t.integer "x_step"
+    t.integer "y_min"
+    t.integer "y_max"
+    t.integer "y_step"
+    t.integer "z_min"
+    t.integer "z_max"
+    t.integer "z_step"
+    t.boolean "three_d"
+    t.string "label"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["experiment_id"], name: "index_control_positions_on_experiment_id"
+  end
+
+  create_table "control_push_buttons", force: :cascade do |t|
+    t.integer "experiment_id", null: false
+    t.string "label"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["experiment_id"], name: "index_control_push_buttons_on_experiment_id"
+  end
+
   create_table "control_toggles", force: :cascade do |t|
     t.integer "experiment_id", null: false
     t.boolean "on"
@@ -95,5 +132,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_15_030304) do
   add_foreign_key "component_stopwatches", "experiments"
   add_foreign_key "control_dials", "experiments"
   add_foreign_key "control_increments", "experiments"
+  add_foreign_key "control_inputs", "experiments"
+  add_foreign_key "control_positions", "experiments"
+  add_foreign_key "control_push_buttons", "experiments"
   add_foreign_key "control_toggles", "experiments"
 end

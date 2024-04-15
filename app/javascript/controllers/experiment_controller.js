@@ -39,6 +39,14 @@ export default class extends Controller {
         }
         this.sendUpdate(control, value);
       });
+      field.addEventListener("click", e => {
+        const control = e.target.name;
+        if(control.includes("push_button")){
+          let value = "pushed"
+          this.sendUpdate(control, value);
+        }
+        
+      });
     });
   }
 

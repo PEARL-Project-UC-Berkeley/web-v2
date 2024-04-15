@@ -17,4 +17,7 @@ class AppointmentPolicy < ApplicationPolicy
   def destroy?
     user.is_admin? || record.user == user
   end
+  def admin?
+    user.is_admin?
+  end
 end
