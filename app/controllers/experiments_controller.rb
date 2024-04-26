@@ -1,4 +1,5 @@
 class ExperimentsController < ApplicationController
+  skip_before_action :authenticate_user!, only: :index
   def index
     authorize Experiment
     @experiments = Experiment.all

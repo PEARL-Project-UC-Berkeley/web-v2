@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
          
   has_many :appointments
+
+  scope :admin, -> { where(admin: true) }
          
   def is_admin?
     return admin == true
