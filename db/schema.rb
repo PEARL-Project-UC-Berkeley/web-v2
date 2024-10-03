@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_20_005709) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_03_085743) do
   create_table "appointments", force: :cascade do |t|
     t.datetime "start_time"
     t.datetime "end_time"
@@ -127,6 +127,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_20_005709) do
     t.string "image"
     t.string "name"
     t.string "description"
+    t.string "timezone", default: "America/Los_Angeles", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
