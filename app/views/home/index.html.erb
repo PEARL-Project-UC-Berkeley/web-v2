@@ -1,0 +1,68 @@
+<div class="container my-5">
+  <div class="p-5 text-center bg-body-tertiary rounded-3 shadow">
+    <%= image_tag("seal.png", alt: "Physics", class: "mb-4 rounded-circle", size: "100x100") %>
+    <h1 class="text-body-emphasis display-4">PEARL Project @ Berkeley</h1>
+    <p class="col-lg-8 mx-auto fs-5 text-muted">
+      The Physics Experiments Accessed Remotely Laboratory (PEARL) Project allows students to have real and physical interaction with laboratory equipment in real time as if they were present in the lab.
+    </p>
+    <div class="d-inline-flex gap-2 mb-5">
+      <%= button_to "Sign In", new_user_session_path, method: :get, class: "btn btn-primary btn-lg px-4 rounded-pill" %>
+      <%= button_to "Sign Up", new_user_registration_path, method: :get, class: "btn btn-secondary btn-lg px-4 rounded-pill" %>
+    </div>
+  </div>
+</div>
+
+
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">What is the PEARL Project?</h2>
+    <div class="row align-items-stretch">
+      <div class="col-lg-6 mb-4">
+        <p class="text-muted">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae laoreet metus. Curabitur vestibulum mauris condimentum arcu lacinia, vel gravida enim varius. Quisque non ultrices ex, nec blandit eros. Integer porttitor bibendum leo sed consectetur. Cras rutrum sem at metus sodales, vitae consequat lectus maximus. Nunc feugiat orci neque, ac ultrices turpis imperdiet a. Aliquam elit sem, ullamcorper id risus et, ornare facilisis nunc. Quisque ut mi neque. Fusce massa ligula, lacinia ut justo nec, blandit fringilla massa. Proin mi magna, elementum vel varius ac, hendrerit ac lorem. Sed non diam varius, tincidunt ex sit amet, vehicula odio. Ut tempor purus tortor, et ultricies nunc semper at. Mauris eleifend odio ut quam dictum dictum. Aliquam blandit porttitor augue sed porttitor. Curabitur vulputate tortor non dictum consequat. Cras scelerisque ante quis sapien congue tincidunt.
+        </p>
+      </div>
+      <div class="col-lg-6 mb-4">
+        <div class="video-container">
+          <%= image_tag('physics_image.jpg', class: 'embed-responsive-item w-100') %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bg-body-tertiary p-4">
+  <h3 class="text-center mb-5">Experiments</h3>
+  <div class="container">
+    <div class="row g-4 justify-content-center">
+      <% Experiment.all.each do |e| %>
+        <div class="col-lg-3 col-md-4 col-sm-6 d-flex justify-content-center">
+          <div class="card shadow-sm border-0" style="width: 18rem;">
+            <%= image_tag(e.image || "physics_image.jpg", alt: "Experiment photo", class: "card-img-top") %>
+            <div class="card-body text-center">
+              <h5 class="card-title mb-2"><%= e.name || "Experiment Name" %></h5>
+              <p class="card-text text-muted"><%= e.description || "Experiment Description" %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <h3 class="text-center mb-4 pt-5">The Team</h3>
+  <div class="row justify-content-center"> <!-- Added justify-content-center to center cards -->
+    <% User.admin.each do |u| %>
+      <div class="col-md-2 mb-4 d-flex justify-content-center"> <!-- Added d-flex and justify-content-center -->
+        <div class="card shadow" style="width: 200px;"> <!-- Set a fixed width for smaller cards -->
+          <%= image_tag(u.image || 'seal.png', class: 'card-img-top', style: 'width: 100%; height: auto;', alt: "#{u.name || 'Temp Name'} photo") %>
+          <div class="card-body">
+            <h5 class="card-title"><%= u.name || "Temp Name" %></h5>
+            <p class="card-text"><%= u.description || "Temp Description" %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,55 +1,24 @@
-<% if current_user %>
-  <%= render "appointments/current" %>
-  <% if current_user.is_admin? %>
-    <div class="admin">
-      <b>Experiments</b>
-      <ul>
-        <% @experiments.each do |experiment| %>
-          <li>
-            <%= link_to experiment.name, experiment %>
-          </li>
-        <% end %>
-      </ul>
-      <%= button_to "Create An Experiment", new_experiment_path, method: :get %>
-    </div>
+<div class="container py-5">
+  <% if current_user %>
+    <%= render "appointments/current" %>
+
+    <% if current_user.is_admin? %>
+      <div class="admin mt-4"> <!-- Spacing for better layout -->
+        <h3><b>Experiments</b></h3>
+
+        <ul class="list-unstyled"> <!-- Removed list-group for a cleaner look -->
+          <% @experiments.each do |experiment| %>
+            <li class="mb-2">
+              <%= link_to experiment.name, experiment, class: "text-decoration-none text-dark" %> <!-- Custom link style -->
+            </li>
+          <% end %>
+        </ul>
+
+        <%= button_to "Create An Experiment", new_experiment_path, method: :get, class: "btn btn-primary mt-2" %> <!-- Spaced button -->
+      </div>
+    <% end %>
+
+  <% else %>
+    <%=controller.redirect_to home_index_path %>
   <% end %>
-  
-<% else %>
-  <h1>
-    PEARL Project @ Berkeley
-  </h1>
-  <%= button_to "Sign in", new_user_session_path, method: :get %>
-  <p style="font-size: 18px; max-width: 600px;">
-    Physics Experiments Accessed Remotely Laboratory (PEARL) Project allows students to have real and physical interaction with laboratory equipment in real time as if they were present in the lab. 
-  </p>
-  <h3>
-    Experiments
-  </h3>
-  <% Experiment.all.each do |e| %>
-    <p>
-      <b><u><%= e.name %></u></b>
-      <p>
-        <%= e.description %>
-      </p>
-      <img src="<%= e.image %>" height="300px" />
-    </p>
-  <% end %>
-  <h3>
-    The Team
-  </h3>
-  <% User.admin.each do |u| %>
-    <p>
-      <img src="<%= u.image %>" height="150px" /> <br />
-      <b><u><%= u.name %></u></b>
-      <p>
-        <%= u.description %>
-      </p>
-    </p>
-  <% end %>
-  <h3>
-    Contact Us
-  </h3>
-  <p>
-    Get in touch! pearlproject@gmail.com
-  </p>
-<% end %>
+</div>

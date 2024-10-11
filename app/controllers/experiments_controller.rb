@@ -15,7 +15,7 @@ class ExperimentsController < ApplicationController
   end
 
   def create
-    @experiment = Experiment.new(params[:experiment].permit(:name))
+    @experiment = Experiment.new(params[:experiment].permit(:name, :description))
     authorize @experiment
     @experiment.save!
     redirect_to @experiment
@@ -29,7 +29,7 @@ class ExperimentsController < ApplicationController
   def update
     @experiment = Experiment.find(params[:id])
     authorize @experiment
-    @experiment.update(params[:experiment].permit(:name))
+    @experiment.update(params[:experiment].permit(:name, :description))
     redirect_to @experiment
   end
 

@@ -1,28 +1,22 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>WebV2</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <title>WebV2</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-  <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <nav style="display: flex; gap: 8px;">
-      <% if current_user %>
-        <%= button_to "🏠", root_path, method: :get %>
-        <%= button_to "Scheduler", appointments_path, method: :get %>
-        <% if current_user.is_admin? %>
-          <%= button_to "Appointments (Admin)", admin_appointments_path, method: :get, style: "color: rgba(255, 140, 55, 1); font-weight: 800;" %>
-        <% end %>
-        <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
-      <% end %>
-    </nav>
-    <%= yield %>
-  </body>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+
+
+<body>
+<%= render "shared/navbar" %>
+<div class="main-content ">
+  <%= yield %>
+</div>
+<%= render "shared/footer" %>
+</body>
 </html>

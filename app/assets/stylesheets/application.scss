@@ -14,9 +14,37 @@
  *= require_self
  */
 
+@import "bootstrap";
+
 .admin {
   background: rgba(255, 140, 55, 0.6);
   padding: 16px;
   border: 1px solid black;
   border-radius: 4px;
+}
+
+html, body {
+  height: 100%; /* Ensure full height for body */
+  margin: 0; /* Remove default margin */
+}
+
+body {
+  display: flex;
+  flex-direction: column; /* Stack child elements vertically */
+}
+
+.main-content {
+  flex: 1; /* Allow main content to expand */
+}
+
+footer {
+  /* Styles for footer */
+  background-color: #343a40; /* Dark background */
+  color: white; /* White text */
+  padding: 1rem 0; /* Vertical padding */
+  text-align: center; /* Center text */
+}
+
+.video-container {
+  height: 100%; /* Make the container take full height of the column */
 }

@@ -1,123 +1,111 @@
-<h1><%= @experiment.name %></h1>
+<h1 class="text-center mb-4"><%= @experiment.name %></h1>
 
-<b>Controls:</b>
+<div class="container">
+  <b class="mb-3">Controls:</b>
+  <div data-controller="experiment" data-experiment-id-value="<%= @experiment.id %>">
+    <div class="row">
+      <% @experiment.controls.each do |control| %>
+        <div class="col-md-6 mb-3">
+          <div class="card h-100">
+            <div class="card-body">
+              <% if control.is_a?(Control::Toggle) %>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" data-target="experiment.field" name="checkbox_<%= control.id %>">
+                  <label class="form-check-label"><%= control.label %></label>
+                </div>
+              <% elsif control.is_a?(Control::Increment) %>
+                <label><%= control.label %></label>
+                <input type="number" class="form-control" data-target="experiment.field" name="increment_<%= control.id %>" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
+              <% elsif control.is_a?(Control::Dial) %>
+                <label><%= control.label %></label>
+                <input type="range" class="form-range" data-target="experiment.field" name="dial_<%= control.id %>" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
+              <% elsif control.is_a?(Control::PushButton) %>
+                <label><%= control.label %></label>
+                <button class="btn btn-primary btn-sm" data-target="experiment.field" name="push_button_<%= control.id %>"><%= control.label %></button>
+              <% elsif control.is_a?(Control::Input) %>
+                <label><%= control.label %></label>
+                <input type="number" class="form-control" data-target="experiment.field" name="input_<%= control.id %>" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
+              <% elsif control.is_a?(Control::Position) %>
+                <label><%= control.label %></label>
+                <input type="range" class="form-range" data-target="experiment.field" name="position_<%= control.id %>_x" min="<%= control.x_min %>" max="<%= control.x_max %>" step="<%= control.x_step %>">
+                <input type="range" class="form-range" data-target="experiment.field" name="position_<%= control.id %>_y" min="<%= control.y_min %>" max="<%= control.y_max %>" step="<%= control.y_step %>">
+                <% if control.three_d %>
+                  <input type="range" class="form-range" data-target="experiment.field" name="position_<%= control.id %>_z" min="<%= control.z_min %>" max="<%= control.z_max %>" step="<%= control.z_step %>">
+                <% end %>
+              <% end %>
 
-<br /> <br />
+              <% if current_user.is_admin? %>
+                <div class="d-flex gap-2 mt-3">
+                  <%= button_to "🗑️", experiment_control_path(experiment_id: @experiment.id, id: "#{control.type}_#{control.id}"), method: :delete, class: "btn btn-danger btn-sm" %>
+                  <%= button_to "✏️", edit_experiment_control_path(experiment_id: @experiment.id, id: "#{control.type}_#{control.id}"), method: :get, class: "btn btn-secondary btn-sm" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
-<div data-controller="experiment" data-experiment-id-value="<%= @experiment.id %>">
-  <% @experiment.controls.each do |control| %>
-    <li style="display: flex; align-items: center; gap: 4px;">
-      <% if control.is_a?(Control::Toggle) %>
-        <input type="checkbox" data-target="experiment.field" name="checkbox_<%= control.id %>">
-        <label><%= control.label %> </label><br>
-      <% end %>
-      
-      <% if control.is_a?(Control::Increment) %>
-        <input type="number" data-target="experiment.field" name="increment_<%= control.id %>" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
-        <label><%= control.label %> </label><br>
-      <% end %>
-      
-      <% if control.is_a?(Control::Dial) %>
-        <input type="range" data-target="experiment.field" name="dial_<%= control.id %>" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
-        <label><%= control.label %> </label><br>
-      <% end %>
-      <% if control.is_a?(Control::PushButton) %>
-        <button data-target="experiment.field" name="push_button_<%= control.id %>"><%= control.label %> </button><br>
-      <% end %>
-      <% if control.is_a?(Control::Input) %>
-        <input type="number" data-target="experiment.field" name="input_<%= control.id %>" min="<%= control.min %>" max="<%= control.max %>" step="<%= control.step %>">
-        <label><%= control.label %> </label><br>
-      <% end %>
-      <% if control.is_a?(Control::Position) %>
-        <input type="range" data-target="experiment.field" name="position_<%= control.id %>_x" min="<%= control.x_min %>" max="<%= control.x_max %>" step="<%= control.x_step %>">
-        <input type="range" data-target="experiment.field" name="position_<%= control.id %>_y" min="<%= control.y_min %>" max="<%= control.y_max %>" step="<%= control.y_step %>">
-        <% if control.three_d %>
-          <input type="range" data-target="experiment.field" name="position_<%= control.id %>_z" min="<%= control.z_min %>" max="<%= control.z_max %>" step="<%= control.z_step %>">
+  <b class="mt-5 mb-3">Components:</b>
+  <div class="row">
+    <% @experiment.components.each do |component| %>
+      <div class="col-md-6 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <% if component.is_a?(Component::Stopwatch) %>
+              <div data-controller="stopwatch">
+                <u><%= component.label %></u>
+                <p data-target="stopwatch.display">00:00:00</p>
+                <button class="btn btn-primary btn-sm" data-action="click->stopwatch#startStop" data-target="stopwatch.startStop">▶️</button>
+                <button class="btn btn-warning btn-sm" data-action="click->stopwatch#reset">🔁</button>
+                <button class="btn btn-secondary btn-sm" data-action="click->stopwatch#pauseResume" data-target="stopwatch.pauseResume" disabled>⏸️</button>
+              </div>
+            <% else %>
+              <span><%= component.label %></span>
+            <% end %>
+
+            <% if current_user.is_admin? %>
+              <div class="d-flex gap-2 mt-3">
+                <%= button_to "🗑️", experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :delete, class: "btn btn-danger btn-sm" %>
+                <%= button_to "✏️", edit_experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :get, class: "btn btn-secondary btn-sm" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <b class="mt-5 mb-3">Cameras:</b>
+  <% @experiment.camera_streams.each do |camera_stream| %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <div style="position: relative; width: 600px; height: 400px; overflow: hidden">
+          <iframe width="600" height="400" src="<%= camera_stream.url %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+          <img src="https://cloud-bkp6kovw2-hack-club-bot.vercel.app/0plastic_transparent_ruler_png_clip_art-2891.png" height="100px" alt="Ruler" data-controller="draggable" data-target="draggable.draggable"  data-action="mousedown->draggable#drag wheel->draggable#scale" style="position: absolute; left: 0; top: 0">
+        </div>
+        <% if current_user.is_admin? %>
+          <div class="d-flex gap-2 mt-3">
+            <%= button_to "🗑️", experiment_camera_stream_path(experiment_id: @experiment.id, id: camera_stream.id), method: :delete, class: "btn btn-danger btn-sm" %>
+            <%= button_to "✏️", edit_experiment_camera_stream_path(experiment_id: @experiment.id, id: camera_stream.id), method: :get, class: "btn btn-secondary btn-sm" %>
+          </div>
         <% end %>
-        <br />
-        <label><%= control.label %> </label><br>
-      <% end %>
-      <% if current_user.is_admin? %>
-        <span style="display: inline-flex; gap: 4px; margin-top: 8px; margin-left: 16px; background: rgba(255, 140, 55, 0.6); padding: 4px; border-radius: 4px;">
-          <%= button_to "🗑️", experiment_control_path(experiment_id: @experiment.id, id: "#{control.type}_#{control.id}"), method: :delete %>
-          <%= button_to "✏️", edit_experiment_control_path(experiment_id: @experiment.id, id: "#{control.type}_#{control.id}"), method: :get %>
-        </span>
-      <% end %>
-    </li>
+      </div>
+    </div>
+  <% end %>
+
+  <% if current_user.is_admin? %>
+    <div class="admin">
+      <div class="d-flex gap-2 mb-3">
+        <%= button_to "Delete Experiment", @experiment, method: :delete, class: "btn btn-danger" %>
+        <%= button_to "Update Experiment", edit_experiment_path(@experiment), method: :get, class: "btn btn-secondary" %>
+      </div>
+      <div class="d-flex gap-2">
+        <%= button_to "Add Controls", new_experiment_control_path(@experiment), method: :get, class: "btn btn-primary" %>
+        <%= button_to "Add Components", new_experiment_component_path(@experiment), method: :get, class: "btn btn-primary" %>
+        <%= button_to "Add Cameras", new_experiment_camera_stream_path(@experiment), method: :get, class: "btn btn-primary" %>
+      </div>
+    </div>
   <% end %>
 </div>
-
-<br />
-
-<b>Components:</b>
-
-<br /> <br />
-
-<% @experiment.components.each do |component| %>
-  <% if component.is_a?(Component::Stopwatch) %>
-    <div data-controller="stopwatch" class="container">
-        <u style="margin-right: 8px"><%= component.label %></u>
-        <% if current_user.is_admin? %>
-          <span style="display: inline-flex; gap: 4px; margin-top: 8px; background: rgba(255, 140, 55, 0.6); padding: 4px; border-radius: 4px;">
-            <%= button_to "🗑️", experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :delete %>
-            <%= button_to "✏️", edit_experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :get %>
-          </span>
-        <% end %>
-        <p data-target="stopwatch.display">00:00:00</p>
-        <button data-action="click->stopwatch#startStop" data-target="stopwatch.startStop">▶️</button>
-        <button data-action="click->stopwatch#reset">🔁</button>
-        <button data-action="click->stopwatch#pauseResume" data-target="stopwatch.pauseResume" disabled>⏸️</button>
-    </div>
-  <% else %>
-    <li>
-      <span style="display: inline-flex; gap: 4px; margin-top: 8px;">
-        <%= component.label %> 
-        <%= button_to "🗑️", experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :delete %>
-        <%= button_to "✏️", edit_experiment_component_path(experiment_id: @experiment.id, id: "#{component.type}_#{component.id}"), method: :get %>
-      </span>
-    </li>
-  <% end %>
-<% end %>
-
-<br />
-
-<b>Cameras:</b>
-
-<br /> <br />
-
-<% @experiment.camera_streams.each do |camera_streams| %>
-  <div style="position: relative; width: 600px; height: 400px; overflow: hidden">
-    <iframe width="600" height="400" src="<%= camera_streams.url %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
-    <img src="https://cloud-bkp6kovw2-hack-club-bot.vercel.app/0plastic_transparent_ruler_png_clip_art-2891.png" height="100px" alt="Ruler" data-controller="draggable" data-target="draggable.draggable"  data-action="mousedown->draggable#drag wheel->draggable#scale" style="position: absolute; left: 0; top: 0">
-  </div>
-  <span style="display: inline-flex; gap: 4px; margin-top: 8px; margin-bottom: 16px;">
-    <%= button_to "🗑️", experiment_camera_stream_path(experiment_id: @experiment.id, id: camera_streams.id), method: :delete %>
-    <%= button_to "✏️", edit_experiment_camera_stream_path(experiment_id: @experiment.id, id: camera_streams.id), method: :get %>
-  </span>
-<% end %>
-
-<br />
-
-<% if current_user.is_admin? %>
-  <div class="admin">
-  
-    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-    
-      <%= button_to "Delete Experiment", @experiment, method: :delete %>
-      
-      <%= button_to "Update Experiment", edit_experiment_path(@experiment), method: :get %>
-    
-    </div>
-    
-    <div style="display: flex; gap: 8px">
-      
-      <%= button_to "Add Controls", new_experiment_control_path(@experiment), method: :get %>
-    
-      <%= button_to "Add Components", new_experiment_component_path(@experiment), method: :get %>
-      
-      <%= button_to "Add Cameras", new_experiment_camera_stream_path(@experiment), method: :get %>
-    
-    </div>
-  
-  </div>
-<% end %>
