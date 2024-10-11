@@ -5,6 +5,8 @@ import ssl
 import time
 import serial
 
+# https://bfc2-2607-f140-400-7-91a-c23c-2631-d75e.ngrok-free.app
+
 state = {
 	"dial_6": 0,
 	"dial_7": 0,
