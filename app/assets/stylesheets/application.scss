@@ -48,3 +48,55 @@ footer {
 .video-container {
   height: 100%; /* Make the container take full height of the column */
 }
+
+.timeline {
+  position: relative;
+  padding: 20px 0;
+  margin: 0 auto;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 100%;
+  border-left: 2px solid #007bff; /* Timeline line color */
+  z-index: 1;
+}
+.timeline-item {
+  position: relative;
+  width: 50%;
+  margin: 20px 0;
+}
+.timeline-item.left {
+  left: 0;
+  text-align: right; /* Align text to the right */
+}
+.timeline-item.right {
+  left: 50%;
+  text-align: left; /* Align text to the left */
+}
+.timeline-content {
+  background: none; /* No background color */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: none; /* Remove shadow */
+  z-index: 2;
+}
+.event-title {
+  font-weight: bold;
+}
+.date {
+  font-weight: normal;
+  color: #6c757d; /* Muted color for the date */
+}
+@media (max-width: 768px) {
+  .timeline-item {
+    width: 100%;
+    left: 0;
+    text-align: left; /* Align text to the left for mobile view */
+  }
+  .timeline::before {
+    left: 30px; /* Adjust for mobile view */
+  }
+}

@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   get 'home/index'
+  get 'home/team'
+  get 'home/about'
+  get 'home/history'
   root 'experiments#index'
   
   resources :experiments do

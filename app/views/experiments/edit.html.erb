@@ -11,6 +11,19 @@
       <div class="col-md-6">
         <%= f.label :image, class: "form-label" %>
         <%= f.file_field :image, class: "form-control" %>
+
+        <!-- Image Preview -->
+        <% if @experiment.image.attached? %>
+          <div class="mt-2">
+            <h5>Current Image:</h5>
+            <%= image_tag @experiment.image, class: "img-fluid", alt: @experiment.name %>
+          </div>
+        <% else %>
+          <div class="mt-2">
+            <h5>Current Image:</h5>
+            <%= image_tag "default_image.jpg", class: "img-fluid", alt: "Default Image" %>
+          </div>
+        <% end %>
       </div>
 
       <div class="col-12">

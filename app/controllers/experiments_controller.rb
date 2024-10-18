@@ -15,10 +15,22 @@ class ExperimentsController < ApplicationController
   end
 
   def create
-    @experiment = Experiment.new(params[:experiment].permit(:name, :description))
+    @experiment = Experiment.new(experiment_params)
     authorize @experiment
-    @experiment.save!
-    redirect_to @experiment
+
+    unless params[:experiment][:image].present?
+      @experiment.image.attach(
+        io: File.open(Rails.root.join('app', 'assets', 'images', 'physics_image.jpg')),
+        filename: 'default_image.jpg',
+        content_type: 'image/jpeg'
+      )
+    end
+
+    if @experiment.save
+      redirect_to @experiment, notice: 'Experiment was successfully created.'
+    else
+      render :new
+    end
   end
 
   def edit
@@ -29,8 +41,11 @@ class ExperimentsController < ApplicationController
   def update
     @experiment = Experiment.find(params[:id])
     authorize @experiment
-    @experiment.update(params[:experiment].permit(:name, :description))
-    redirect_to @experiment
+    if @experiment.update(experiment_params)
+      redirect_to @experiment, notice: 'Experiment was successfully updated.'
+    else
+      render :edit
+    end
   end
 
   def destroy
@@ -39,5 +54,11 @@ class ExperimentsController < ApplicationController
     @experiment.controls.map { | c | c.delete }
     @experiment.delete
     redirect_to root_path
+  end
+
+  private
+
+  def experiment_params
+    params.require(:experiment).permit(:name, :description, :image)
   end
 end

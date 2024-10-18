@@ -1,0 +1,33 @@
+<div class="container">
+  <h3 class="text-center mb-4 pt-5">The Team</h3>
+  <div class="row justify-content-center"> <!-- Added justify-content-center to center cards -->
+    <% User.admin.each do |u| %>
+      <div class="col-md-2 mb-4 d-flex justify-content-center"> <!-- Added d-flex and justify-content-center -->
+        <div class="card shadow" style="width: 200px;"> <!-- Set a fixed width for smaller cards -->
+          <%= image_tag(u.image || 'seal.png', class: 'card-img-top', style: 'width: 100%; height: auto;', alt: "#{u.name || 'Temp Name'} photo") %>
+          <div class="card-body">
+            <h5 class="card-title"><%= u.name || "Temp Name" %></h5>
+            <p class="card-text"><%= u.description || "Temp Description" %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="container">
+  <h3 class="text-center mb-4 pt-5">Past Members</h3>
+  <div class="row justify-content-center"> <!-- Added justify-content-center to center cards -->
+    <% User.admin.each do |u| %>
+      <div class="col-md-2 mb-4 d-flex justify-content-center"> <!-- Added d-flex and justify-content-center -->
+        <div class="card shadow" style="width: 200px;"> <!-- Set a fixed width for smaller cards -->
+          <%= image_tag(u.image || 'seal.png', class: 'card-img-top', style: 'width: 100%; height: auto;', alt: "#{u.name || 'Temp Name'} photo") %>
+          <div class="card-body">
+            <h5 class="card-title"><%= u.name || "Temp Name" %></h5>
+            <p class="card-text"><%= u.description || "Temp Description" %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
