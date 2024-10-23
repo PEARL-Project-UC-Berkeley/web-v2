@@ -14,4 +14,4 @@ async def ac_recv(uri, identifier):
       if json.loads(msg)['location'] == 'pi':
         await subscription.send({**json.loads(msg), 'location': 'controls'})
 
-asyncio.run(ac_recv('ws://127.0.0.1:3000/cable', {'channel': 'ExperimentChannel', 'experiment': '4', "location": 'pi'}))
+asyncio.run(ac_recv('ws://6.tcp.ngrok.io:15966/cable', {'channel': 'ExperimentChannel', 'experiment': '4', "location": 'pi'}))

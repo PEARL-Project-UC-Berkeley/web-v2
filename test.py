@@ -69,4 +69,4 @@ async def ac_recv(uri, identifier):
 				await subscription.send({**json.loads(msg), 'location': 'controls'})
 
 update()
-asyncio.run(ac_recv('ws://127.0.0.1:3000/cable', {'channel': 'ExperimentChannel', 'experiment': experiment_id, "location": 'pi'}))
+asyncio.run(ac_recv('ws://6.tcp.ngrok.io:15966/cable', {'channel': 'ExperimentChannel', 'experiment': experiment_id, "location": 'pi'}))
