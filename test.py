@@ -4,6 +4,7 @@ import json
 import ssl
 import time
 import serial
+import concurrent.futures
 
 # 5615-2607-f140-400-7-91a-c23c-2631-d75e.ngrok-free.app
 
@@ -25,6 +26,14 @@ steppers = ["dial_6", "dial_7"]
 
 power = 0
 
+def worker():
+	while True:
+		if power == 1:
+			GPIO.output(power, GPIO.HIGH)
+		else:
+			time.sleep(5)
+			GPIO.output(power, GPIO.LOW)
+
 ser = serial.Serial('/dev/ttyUSB0',9600, timeout=1)
 # ser.flush()
 ser.reset_input_buffer()
@@ -42,16 +51,10 @@ def update():
 				stepper_id = 2
 			inputString = "M{0}:{1}\n".format(stepper_id, newmotorPos)
 			print(inputString)
-			ser.write(inputString.encode('utf-8'))
+			# ser.write(inputString.encode('utf-8'))
 			time.sleep(1)
 	if power != state["toggle_6"]:
-		if state["toggle_6"] == 1:
-			GPIO.output(power, GPIO.HIGH)
-			power = state["toggle_6"]
-		else:
-			time.sleep(5)
-			GPIO.output(power, GPIO.LOW)
-			power = state["toggle_6"]
+		power = state["toggle_6"]
 		print("status:", state["toggle_6"])
 
 def process(msg):
@@ -69,6 +72,9 @@ async def ac_recv(uri, identifier):
 				print(msg)
 				process(msg)
 				await subscription.send({**json.loads(msg), 'location': 'controls'})
+
+pool = concurrent.futures.ThreadPoolExecutor(max_workers=2)
+pool.submit(worker)
 
 update()
 asyncio.run(ac_recv('ws://6.tcp.ngrok.io:15966/cable', {'channel': 'ExperimentChannel', 'experiment': experiment_id, "location": 'pi'}))
