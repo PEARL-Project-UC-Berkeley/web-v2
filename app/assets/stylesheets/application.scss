@@ -49,54 +49,44 @@ footer {
   height: 100%; /* Make the container take full height of the column */
 }
 
-.timeline {
+.timeline-container {
   position: relative;
-  padding: 20px 0;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  height: 100%;
-  border-left: 2px solid #007bff; /* Timeline line color */
-  z-index: 1;
+.timeline {
+  display: flex;
+  transition: transform 0.4s ease;
+  width: 100%;
 }
 .timeline-item {
+  min-width: 250px;
+  flex: 0 0 auto;
+  padding: 2rem 1rem;  /* Taller cards */
+  text-align: center;
   position: relative;
-  width: 50%;
-  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-right: 1rem;  /* Space between cards */
+  transition: opacity 0.4s ease;
 }
-.timeline-item.left {
-  left: 0;
-  text-align: right; /* Align text to the right */
+.timeline-item:last-child {
+  margin-right: 0;
 }
-.timeline-item.right {
-  left: 50%;
-  text-align: left; /* Align text to the left */
+.timeline-item::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -25px;
+  width: 50px;
+  height: 4px;
+  background-color: #ddd;
+  transform: translateY(-50%);
 }
-.timeline-content {
-  background: none; /* No background color */
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: none; /* Remove shadow */
-  z-index: 2;
+.timeline-item:last-child::after {
+  display: none;
 }
-.event-title {
-  font-weight: bold;
-}
-.date {
-  font-weight: normal;
-  color: #6c757d; /* Muted color for the date */
-}
-@media (max-width: 768px) {
-  .timeline-item {
-    width: 100%;
-    left: 0;
-    text-align: left; /* Align text to the left for mobile view */
-  }
-  .timeline::before {
-    left: 30px; /* Adjust for mobile view */
-  }
+.btn-nav {
+  z-index: 1;
 }

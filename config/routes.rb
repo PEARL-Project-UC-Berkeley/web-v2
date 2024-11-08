@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :pearl_members
   get 'home/index'
   get 'home/team'
   get 'home/about'

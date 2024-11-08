@@ -1,33 +1,65 @@
-<div class="container">
-  <h1 class="my-4 text-center">History</h1>
-  <div class="timeline">
-    <div class="timeline-item left">
-      <div class="timeline-content">
-        <div class="event-title">Event Title 1</div>
-        <p>Description of the event that took place on this date.</p>
-        <span class="date">Date: 2024-01-01</span>
+<div class="container mt-5">
+  <div class="timeline-container">
+    <button class="btn btn-primary btn-nav me-2" id="prevBtn">&laquo; Prev</button>
+
+    <div class="timeline">
+      <!-- Timeline item 1 -->
+      <div class="timeline-item">
+        <h5>Event 1</h5>
+        <p>Description for event 1.</p>
+      </div>
+
+      <!-- Timeline item 2 -->
+      <div class="timeline-item">
+        <h5>Event 2</h5>
+        <p>Description for event 2.</p>
+      </div>
+
+      <!-- Timeline item 3 -->
+      <div class="timeline-item">
+        <h5>Event 3</h5>
+        <p>Description for event 3.</p>
+      </div>
+
+      <!-- Timeline item 4 -->
+      <div class="timeline-item">
+        <h5>Event 4</h5>
+        <p>Description for event 4.</p>
       </div>
     </div>
-    <div class="timeline-item right">
-      <div class="timeline-content">
-        <div class="event-title">Event Title 2</div>
-        <p>Description of another event that occurred.</p>
-        <span class="date">Date: 2024-02-15</span>
-      </div>
-    </div>
-    <div class="timeline-item left">
-      <div class="timeline-content">
-        <div class="event-title">Event Title 3</div>
-        <p>Details about a significant event.</p>
-        <span class="date">Date: 2024-03-10</span>
-      </div>
-    </div>
-    <div class="timeline-item right">
-      <div class="timeline-content">
-        <div class="event-title">Event Title 4</div>
-        <p>Information about yet another event.</p>
-        <span class="date">Date: 2024-04-20</span>
-      </div>
-    </div>
+
+    <button class="btn btn-primary btn-nav ms-2" id="nextBtn">Next &raquo;</button>
   </div>
 </div>
+
+<!-- Bootstrap JS and custom script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    const timeline = document.querySelector('.timeline');
+    const items = document.querySelectorAll('.timeline-item');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentIndex = 0;
+
+    function updateTimeline() {
+        const itemWidth = items[0].offsetWidth;
+        timeline.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+
+        // Disable buttons at the ends
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === items.length - 1;
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) currentIndex--;
+        updateTimeline();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < items.length - 1) currentIndex++;
+        updateTimeline();
+    });
+
+    // Initial state
+    updateTimeline();
+</script>

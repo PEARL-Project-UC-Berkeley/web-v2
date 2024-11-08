@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Pearl members</h1>
+
+<div id="pearl_members">
+  <% @pearl_members.each do |pearl_member| %>
+    <%= render pearl_member %>
+    <p>
+      <%= link_to "Show this pearl member", pearl_member %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New pearl member", new_pearl_member_path %>

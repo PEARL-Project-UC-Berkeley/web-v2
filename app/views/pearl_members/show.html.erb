@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @pearl_member %>
+
+<div>
+  <%= link_to "Edit this pearl member", edit_pearl_member_path(@pearl_member) %> |
+  <%= link_to "Back to pearl members", pearl_members_path %>
+
+  <%= button_to "Destroy this pearl member", @pearl_member, method: :delete %>
+</div>
